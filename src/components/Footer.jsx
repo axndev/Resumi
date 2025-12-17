@@ -26,7 +26,7 @@ export default function Footer() {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-(--primary)/40 to-transparent" />
 
       {/* MIDDLE */}
-      <div className="mx-auto max-w-6xl px-6 pt-20 pb-30">
+      <div className="mx-auto max-w-6xl px-6 pt-20 md:pb-30 pb-15">
         <div className="grid gap-12 md:grid-cols-3">
           {/* BRAND + SOCIAL */}
           <div className="space-y-5 ">

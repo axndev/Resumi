@@ -179,7 +179,7 @@ export default function HeroSection() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex items-center gap-4 ">
+        <div className="flex flex-col md:flex-row items-center gap-4 ">
           <Link to='/app' className="bg-(--primary) gap-1 hover:bg-(--primary)/90 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-indigo-400 flex items-center transition-colors">
             <span>Get started</span>
             <ArrowRight className="w-4" />

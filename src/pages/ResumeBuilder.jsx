@@ -178,14 +178,21 @@ export default function ResumeBuilder() {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [step]);
     return (
-        <div className="min-h-screen bg-gray-50 pt-0 pb-25">
-            <div class="max-w-7xl mx-auto px-4 py-6">
+        <div className="min-h-screen bg-gray-50 pt-0 pb-25">    
+            <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between">
                 <Link to="/app" class="inline-flex text-sm gap-2 items-center text-slate-500 hover:text-slate-700 transition-all">
                     <ArrowLeft className="w-4" />  Back to Dashboard
                 </Link>
+                <button
+                    onClick={handlePrint}
+                    type="button"
+                    className="md:hidden rounded-full border border-(--primary)/30 text-(--primary) bg-(--primary)/10  font-medium px-5 py-2 cursor-pointer hover:border-(--primary) text-[13px]"
+                >
+                  Download Pdf
+                </button>
             </div>
             {/* STEPS */}
-            <div className="flex flex-wrap gap-3 items-center justify-center mb-10">
+            <div className="md:flex flex-wrap gap-3 items-center justify-center mb-10 hidden">
                 {steps.map((s) => {
                     const Icon = s.icon
                     const active = step === s.id

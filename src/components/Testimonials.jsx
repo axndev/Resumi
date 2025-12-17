@@ -61,7 +61,7 @@ export default function Testimonials() {
   );
 
   return (
-    <div id="testimonials" className="flex flex-col items-center my-10">
+    <div id="testimonials" className="flex flex-col items-center my-10 overflow-x-hidden">
       <div className="flex items-center gap-2 text-sm text-(--primary) bg-(--primary)/10 rounded-full px-6 py-1.5">
         <UserStar className="w-4 h-4" />
         <span>Testimonials</span>

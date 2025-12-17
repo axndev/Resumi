@@ -5,7 +5,9 @@
 * {
   font-family: 'Poppins', sans-serif;
 }
-
+body{
+  overflow-x: hidden;
+}
 @theme {
   --primary: #4f46e5;
   --primary-light: #6366f1;

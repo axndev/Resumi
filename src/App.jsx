@@ -77,7 +77,7 @@ export default function App() {
         path="app/builder/:resumeId"
         element={
           <ProtectedRoute>
-            <div className="min-h-screen pb-20">
+            <div className="min-h-screen pb-0">
               <Header />
               <ResumeBuilder />
               <Footer />
