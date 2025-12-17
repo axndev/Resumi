@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { CloudUpload, FilePenLine, Pencil, Plus, Trash, X } from 'lucide-react'
-import { useAuth } from "@clerk/clerk-react"
+import { useAuth, useUser } from "@clerk/clerk-react"
 import { useNavigate } from "react-router-dom"
 
 function Dashboard() {
@@ -68,10 +68,17 @@ function Dashboard() {
         navigate(`/app/builder/${newResume.id}`, { state: { title: newResume.title } })
     }
 
+    const { user, isLoaded } = useUser()
+    if (!isLoaded) return null
+
+    const fullName =
+        user.fullName ||
+        `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim()
+
     return (
         <div className='bg-gray-50 py-5 min-h-screen'>
             <div className="max-w-7xl mx-auto px-4 py-8 ">
-                <p className="text-2xl font-medium mb-6 text-slate-700 sm:hidden">Welcome, User</p>
+                <p className="text-2xl font-medium mb-6 text-slate-700 sm:hidden">Welcome, {fullName}</p>
                 {/* Actions */}
                 <div className="flex gap-4 mb-6">
                     <button
