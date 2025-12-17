@@ -69,7 +69,7 @@ function Dashboard() {
     }
 
     return (
-        <div className='bg-gray-50 py-5'>
+        <div className='bg-gray-50 py-5 min-h-screen'>
             <div className="max-w-7xl mx-auto px-4 py-8 ">
                 <p className="text-2xl font-medium mb-6 text-slate-700 sm:hidden">Welcome, User</p>
                 {/* Actions */}
@@ -100,11 +100,10 @@ function Dashboard() {
                 <div className="grid grid-cols-2 sm:flex flex-wrap gap-4">
                     {userResumes.map((r) => (
                         <div
-                            onClick={() => handleEditResume(r)}
                             key={r.id}
                             className="relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border border-purple-300 text-purple-600 bg-purple-200 group hover:shadow-lg transition-all duration-300 cursor-pointer"
                         >
-                            <FilePenLine className='w-7 h-7' />
+                            <FilePenLine className='w-7 h-7' onClick={() => handleEditResume(r)} />
                             <p className="text-[13px] font-medium text-center px-2">{r.title || "Resume"}</p>
                             <p className="absolute bottom-1 text-[10px] text-purple-400 px-2 text-center">Updated on {new Date(r.createdAt).toLocaleString()}</p>
                             <div className="absolute top-1 right-1 hidden group-hover:flex items-center gap-1 text-gray-600">
