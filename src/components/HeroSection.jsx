@@ -1,6 +1,16 @@
-import React from "react"
-import { ArrowRight, ChevronsRight } from 'lucide-react'
+import React, { useEffect, useState } from "react";
+import { ArrowRight, ChevronsRight, LayoutDashboard, Star } from 'lucide-react'
 import { Link } from "react-router-dom"
+import { useUser, UserButton } from "@clerk/clerk-react";
+import { Menu, X } from "lucide-react";
+import Logo from "./Logo";
+
+const menuItems = [
+  { name: "Home", href: "#home" },
+  { name: "Features", href: "#features" },
+  { name: "Testimonials", href: "#testimonials" },
+  { name: "Contact", href: "#contact" },
+];
 
 export default function HeroSection() {
   const companiesLogo = [
@@ -10,9 +20,131 @@ export default function HeroSection() {
     { name: "Microsoft", logo: "https://saasly.prebuiltui.com/assets/companies-logo/microsoft.svg", },
     { name: "Walmart", logo: "https://saasly.prebuiltui.com/assets/companies-logo/walmart.svg", }
   ];
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { isSignedIn, user } = useUser(); // live user state
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   return (
     <>
-      <div className="relative mt-23 mb-15 flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black">
+      <header className="fixed -top-3 z-50 w-full">
+        <nav
+          className={`mx-auto mt-2 transition-all border-gray-200 duration-300 ${isScrolled
+            ? "max-w-5xl md:rounded-b-2xl border bg-white/70 backdrop-blur-lg shadow-md"
+            : "max-w-6xl pt-2"
+            }`}
+        >
+          <div className="flex items-center justify-between px-6 py-4 bg-white md:bg-transparent">
+            {/* Logo */}
+            <Logo />
+            {/* Desktop Menu */}
+            <ul className="hidden gap-8 text-sm  md:flex">
+              {menuItems.map((item) => (
+                <li key={item.name} className="relative group">
+                  <a
+                    href={item.href}
+                    className="text-slate-900 transition hover:text-[var(--primary)]"
+                  >
+                    {item.name}
+                  </a>
+                  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-[var(--primary)] transition-all group-hover:w-full"></span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Desktop Buttons */}
+            <div className="hidden gap-3 md:flex items-center">
+              {!isSignedIn ? (
+                <>
+                  <Link
+                    to="/register"
+                    className="rounded-full bg-[var(--primary)] px-8 p-2.5 text-sm text-white transition hover:opacity-90"
+                  >
+                    Get Started
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="rounded-full border border-gray-400 px-8 p-2.5 text-sm transition hover:bg-gray-100"
+                  >
+                    Login
+                  </Link>
+
+                </>
+              ) : (
+                <div className="flex gap-5 items-center">
+                  <Link
+                    to="/app"
+                    className="rounded-full bg-[var(--primary)] px-7 py-2 text-sm text-white transition hover:opacity-90"
+                  >
+                    Dashboard
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden p-2 rounded-full hover:bg-gray-100 transition"
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? (
+                <X className="w-7" />
+              ) : (
+                <Menu className="w-7" />
+              )}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div
+            className={`md:hidden border-t border-gray-200 bg-white px-6 transition-all duration-300 overflow-hidden ${menuOpen ? "max-h-96 opacity-100 pb-6" : "max-h-0 opacity-0"
+              }`}
+          >
+            <ul className="space-y-5 pt-6">
+              {menuItems.map((item) => (
+                <li key={item.name}>
+                  <a
+                    href={item.href}
+                    className="block text-gray-600 hover:text-[var(--primary)] transition"
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-6 space-y-3">
+              {!isSignedIn ? (
+                <>
+                  <Link
+                    to="/login"
+                    className="w-full rounded-full border border-gray-200 py-2 text-sm transition hover:bg-gray-100 block text-center"
+                  >
+                    Get Started
+                  </Link>
+                  <Link
+                    to="/sign-up"
+                    className="w-full rounded-full bg-[var(--primary)] py-2 text-sm text-white transition hover:opacity-90 block text-center"
+                  >
+                    Login
+                  </Link>
+                </>
+              ) : (
+                <div>
+
+                  <UserButton />
+                </div>
+              )}
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div id="home" className="relative mt-23 mb-15 flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black">
         <div className="absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-(--primary) blur-[100px] opacity-30"></div>
 
         {/* Avatars + Stars */}
@@ -28,7 +160,7 @@ export default function HeroSection() {
           <div>
             <div className="flex ">
               {Array(5).fill(0).map((_, i) => (
-                <svg key={i} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-star text-transparent fill-indigo-600" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                <Star key={i} className="fill-(--primary) stroke-none w-4"></Star>
               ))}
             </div>
             <p className="text-sm text-gray-700">
@@ -48,28 +180,28 @@ export default function HeroSection() {
 
         {/* CTA Buttons */}
         <div className="flex items-center gap-4 ">
-          <a href='/' className="bg-indigo-500 hover:bg-indigo-600 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-indigo-400 flex items-center transition-colors">
-            Get started
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right ml-1 size-4" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-          </a>
-          <button className="flex items-center gap-2 border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-video size-5" aria-hidden="true"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect></svg>
-            <span>Try demo</span>
-          </button>
+          <Link to='/app' className="bg-(--primary) gap-1 hover:bg-(--primary)/90 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-indigo-400 flex items-center transition-colors">
+            <span>Get started</span>
+            <ArrowRight className="w-4" />
+          </Link>
+          <Link to="/app" className="flex items-center gap-1 border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700">
+            <LayoutDashboard className="w-4" />
+            <span>Dashboard</span>
+          </Link>
         </div>
 
         <p className="py-6 text-slate-600 mt-14 mb-5">Trusting by leading brands, including</p>
 
-        <div class="overflow-hidden w-full relative max-w-5xl mx-auto select-none">
-          <div class="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent" />
+        <div className="overflow-hidden w-full relative max-w-5xl mx-auto select-none">
+          <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent" />
 
-          <div class="flex marquee-inner will-change-transform max-w-5xl mx-auto">
+          <div className="flex marquee-inner will-change-transform max-w-5xl mx-auto">
             {[...companiesLogo, ...companiesLogo].map((company, index) => (
               <img key={index} className="mx-11" src={company.logo} alt={company.name} />
             ))}
           </div>
 
-          <div class="absolute right-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent" />
+          <div className="absolute right-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent" />
         </div>
       </div>
     </>

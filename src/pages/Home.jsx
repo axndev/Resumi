@@ -1,7 +1,7 @@
 import React from 'react'
 import HeroSection from '../components/HeroSection'
 import Features from '../components/Features'
-import HowItWorks from '../components/HowItWorks'
+import Testimonials from '../components/Testimonials'
 import CallToAction from '../components/CallToAction'
 
 function Home() {
@@ -9,7 +9,7 @@ function Home() {
         <>
             <HeroSection />
             <Features />
-            <HowItWorks />
+            <Testimonials />
             <CallToAction />
         </>
     )

@@ -5,79 +5,86 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
+import Dashboard from "./pages/Dashboard";
+import Register from "./pages/Register";
 
 // Protected route wrapper
 function ProtectedRoute({ children }) {
   const { isSignedIn } = useAuth();
-
-  if (!isSignedIn) {
-    return <Navigate to="/login" replace />;
-  }
-
+  if (!isSignedIn) return <Navigate to="/register" replace />;
   return children;
 }
 
 export default function App() {
   return (
-    <>
-      <Routes>
-        {/* Public Route */}
-        <Route
-          path="/"
-          element={
-            <>
+    <Routes>
+      {/* Public Route */}
+      <Route
+        path="/"
+        element={
+          <>
+            <Home />
+            <Footer />
+          </>
+        }
+      />
+
+      {/* Login Route */}
+      <Route
+        path="/login"
+        element={
+          <>
+            <SignedIn>
+              <Navigate to="/app" replace />
+            </SignedIn>
+            <SignedOut>
+              <Login />
+            </SignedOut>
+          </>
+        }
+      />
+
+      {/* SignUp Route */}
+      <Route
+        path="/register"
+        element={
+          <>
+            <SignedIn>
+              <Navigate to="/" replace />
+            </SignedIn>
+            <SignedOut>
+              <Register />
+            </SignedOut>
+          </>
+        }
+      />
+
+      {/* Dashboard */}
+      <Route
+        path="/app"
+        element={
+          <ProtectedRoute>
+            <div className="min-h-screen">
               <Header />
-              <Home />
+              <Dashboard />
+            </div>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Builder: Dynamic route for resume */}
+      <Route
+        path="app/builder/:resumeId"
+        element={
+          <ProtectedRoute>
+            <div className="min-h-screen pb-20">
+              <Header />
+              <ResumeBuilder />
               <Footer />
-            </>
-          }
-        />
-
-        {/* Login Route */}
-        <Route
-          path="/login"
-          element={
-            <>
-              <SignedIn>
-                {/* If logged in, redirect to home */}
-                <Navigate to="/resume-builder" replace />
-              </SignedIn>
-              <SignedOut>
-                {/* If signed out, show login page */}
-                <Login />
-              </SignedOut>
-            </>
-          }
-        />
-        <Route
-          path="/sign-up"
-          element={
-            <>
-              <SignedIn>
-                {/* If logged in, redirect to home */}
-                <Navigate to="/" replace />
-              </SignedIn>
-              <SignedOut>
-                {/* If signed out, show login page */}
-                <SignUp />
-              </SignedOut>
-            </>} />
-        {/* Protected Route */}
-        <Route
-          path="/resume-builder"
-          element={
-            <ProtectedRoute>
-              <div className="min-h-screen pb-20">
-                <Header />
-                <ResumeBuilder />
-                <Footer />
-              </div>
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes >
-    </>
+            </div>
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }

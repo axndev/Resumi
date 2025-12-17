@@ -1,17 +1,61 @@
 import React from "react"
 import { useSignIn } from "@clerk/clerk-react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { Lock, Mail } from "lucide-react"
 
 export default function Login() {
     const { signIn, isLoaded } = useSignIn()
+    const navigate = useNavigate()
 
-    const handleGoogleSignIn = async () => {
+    const [formData, setFormData] = React.useState({
+        email: "",
+        password: "",
+    })
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (!isLoaded) return
+
+        try {
+            const result = await signIn.create({
+                identifier: formData.email,
+                password: formData.password,
+            })
+
+            // ✅ ONLY proceed when complete
+            if (result.status === "complete") {
+                await signIn.setActive({
+                    session: result.createdSessionId,
+                })
+
+                navigate("/app")
+                return
+            }
+
+            // ❗ Other states (no error, just not done yet)
+            console.log("Sign-in status:", result.status)
+
+        } catch (err) {
+            console.error(err)
+            alert(err.errors?.[0]?.message || "Invalid email or password")
+        }
+    }
+
+
+    const handleGoogleLogin = async () => {
         if (!isLoaded) return
         try {
             // Redirect to Clerk Google OAuth
             await signIn.authenticateWithRedirect({
                 strategy: "oauth_google",
-                redirectUrl: "/resume-builder", // where to go after login
+                redirectUrl: "/app", // where to go after login
             })
         } catch (err) {
             console.error("Google sign-in error:", err)
@@ -20,53 +64,30 @@ export default function Login() {
 
     return (
         <section className="flex min-h-screen bg-zinc-50 items-center justify-center px-4">
-            <div className="bg-white w-full max-w-sm rounded-[calc(0.5rem+0.125rem)] border border-gray-200 p-6 shadow-md text-center">
-                {/* Logo */}
-                <div className="mb-6">
-                    <div className="text-2xl font-bold text-[var(--primary)]">Logo</div>
-                    <h1 className="mt-4 text-xl font-semibold">Sign In to Tailark</h1>
-                    <p className="text-sm">Welcome back! Sign in to continue</p>
+            <form onSubmit={handleSubmit} className="sm:w-[350px] w-full text-sm text-center border border-gray-300/60 rounded-2xl px-8 bg-white">
+                <h1 className="text-gray-900 text-3xl mt-10 font-medium">Login</h1>
+                <p className="text-gray-500  mt-2">Please login to continue</p>
+
+                <div className="flex items-center w-full mt-4 bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden pl-6 gap-2">
+                    <Mail className="text-[#6B7280] w-4" />
+                    <input type="email" name="email" placeholder="Email id" className="  border-none outline-none ring-0" value={formData.email} onChange={handleChange} required />
                 </div>
-
-                {/* Google Login */}
-                <button
-                    type="button"
-                    onClick={handleGoogleSignIn}
-                    className="flex items-center justify-center gap-2 w-full rounded border border-gray-200 px-3 py-2 text-sm hover:bg-gray-100 transition mb-4"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 256 262"
-                    >
-                        <path
-                            fill="#4285f4"
-                            d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622l38.755 30.023l2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
-                        ></path>
-                        <path
-                            fill="#34a853"
-                            d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055c-34.523 0-63.824-22.773-74.269-54.25l-1.531.13l-40.298 31.187l-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
-                        ></path>
-                        <path
-                            fill="#fbbc05"
-                            d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82c0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602z"
-                        ></path>
-                        <path
-                            fill="#eb4335"
-                            d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
-                        ></path>
-                    </svg>
-                    <span>Sign in with Google</span>
+                <div className="flex items-center mt-4 w-full bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden pl-6 gap-2">
+                    <Lock className="text-[#6B7280] w-4" />
+                    <input type="password" name="password" placeholder="Password" className=" border-none outline-none ring-0" value={formData.password} onChange={handleChange} required />
+                </div>
+                <div className="mt-4 text-left text-(--primary)">
+                    <button className="cursor-pointer" type="reset">Forget password?</button>
+                </div>
+                <button type="submit" className="mt-2 w-full h-11 rounded-full text-white cursor-pointer  bg-(--primary) hover:opacity-90 transition-opacity">
+                    Login
                 </button>
-
-                <p className="text-sm text-gray-700 mt-2">
-                    Don't have an account?{" "}
-                    <Link to="login" className="text-blue-600 hover:underline">
-                        Create account
-                    </Link>
-                </p>
-            </div>
+                <p className="text-gray-500  mt-3">Don't have an account?<Link to='/register' className="text-(--primary) hover:underline"> click here</Link></p>
+                <button onClick={handleGoogleLogin} type="button" class="w-full flex items-center gap-2 justify-center my-5 mb-10 cursor-pointer hover:bg-gray-100/70 bg-white border border-gray-500/30 py-2.5 rounded-full text-gray-800">
+                    <img class="h-4 w-4" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleFavicon.png" alt="googleFavicon" />
+                    Log in with Google
+                </button>
+            </form>
         </section>
     )
 }

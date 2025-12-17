@@ -6,11 +6,12 @@ import {
   Instagram,
   Send,
 } from 'lucide-react'
+import Logo from './Logo'
 
 const links = [
   {
     group: 'Product',
-    items: ['Features', 'Customers', 'Pricing', 'Help', 'About'],
+    items: ['Features', 'Customers', 'Help', 'About'],
   },
   {
     group: 'Company',
@@ -20,19 +21,17 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-white pt-20">
+    <footer className="relative bg-gradient-to-r from-white via-[#B3BCF9]/90 to-white">
       {/* divider */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-(--primary)/40 to-transparent" />
 
       {/* MIDDLE */}
-      <div className="mx-auto max-w-6xl px-6 py-14">
+      <div className="mx-auto max-w-6xl px-6 pt-20 pb-30">
         <div className="grid gap-12 md:grid-cols-3">
           {/* BRAND + SOCIAL */}
           <div className="space-y-5 ">
             <div>
-              <h3 className="text-xl font-semibold tracking-tight">
-                ResumeCraft
-              </h3>
+              <Logo />
               <p className="mt-2 max-w-xs text-sm text-gray-500">
                 No design skills needed, just powerful tools to create resumes recruiters actually notice.
               </p>
@@ -63,8 +62,8 @@ export default function Footer() {
                 {section.items.map((item) => (
                   <a
                     key={item}
-                    href="#"
-                    className="block text-gray-500 transition hover:text-black"
+                    href={`#${item}`}
+                    className="block text-gray-500 transition text-[13px] hover:text-black"
                   >
                     {item}
                   </a>
@@ -86,13 +85,13 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="h-10 w-full rounded-md border border-gray-200 px-3 outline-none transition focus:ring-2 focus:ring-gray-200"
+                className="h-10 w-full rounded-md border border-gray-200 px-3 bg-white/40 outline-none transition focus:ring-2 focus:ring-gray-200 text-[13px]"
               />
 
               <button
                 type="submit"
                 aria-label="Subscribe"
-                className="flex h-10 w-12 items-center justify-center rounded-md bg-(--primary) text-white transition hover:bg-gray-900 active:scale-95"
+                className="flex h-10 w-12 cursor-pointer items-center justify-center rounded-md bg-(--primary) text-white transition hover:bg-gray-900 active:scale-95"
               >
                 <Send className="h-4 w-4" />
               </button>
@@ -104,10 +103,10 @@ export default function Footer() {
       {/* BOTTOM */}
       
       <div className=" relative">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-(--primary)/40 to-transparent" />
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6 text-sm">
           <span className="text-gray-500">
-            © {new Date().getFullYear()} ResumeCraft. All rights reserved.
+            © {new Date().getFullYear()} Resumi. All rights reserved.
           </span>
 
           {/* LEGAL LINKS */}
