@@ -173,7 +173,7 @@ export default function Dashboard() {
                 </div>
             )}
             {/* Alert */}
-            <div className={`fixed ${alert ? 'opacity-100' : 'opacity-0'} top-5 transition-all duration-300  left-1/2 transform -translate-x-1/2 w-70  bg-white flex gap-3 p-3 text-sm rounded shadow-lg`}>
+            <div className={`fixed ${alert ? 'top-5 opacity-100' : 'opacity-0 -top-full'} transition-all duration-300  left-1/2 transform -translate-x-1/2 w-70  bg-white flex gap-3 p-3 text-sm rounded shadow-lg`}>
                 <CheckCircle className="w-5 text-green-500" />
                 <div>
                     <h3 className="font-medium">{alert?.title}</h3>

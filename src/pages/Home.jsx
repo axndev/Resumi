@@ -8,8 +8,10 @@ function Home() {
     return (
         <>
             <HeroSection />
-            <Features />
-            <Testimonials />
+            <div className='px-3'>
+                <Features />
+                <Testimonials />
+            </div>
             <CallToAction />
         </>
     )

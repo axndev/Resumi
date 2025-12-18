@@ -58,7 +58,7 @@ export default function ResumeBuilder() {
         summary: "",
         experience: [{ company: "", job: "", duration: "", desc: "" }],
         education: [{ school: "", degree: "", year: "", gpa: "" }],
-        projects: [{ name: "", desc: "" }],
+        projects: [{ name: "", projectType: "", desc: "" }],
         skills: [],
         skillInput: "",
         createdAt: null,
@@ -158,7 +158,7 @@ export default function ResumeBuilder() {
             summary: "",
             experience: [{ company: "", job: "", duration: "", desc: "" }],
             education: [{ school: "", degree: "", year: "", gpa: "" }],
-            projects: [{ name: "", desc: "" }],
+            projects: [{ name: "", projectType: "", desc: "", }],
             skills: [],
             skillInput: "",
             createdAt: null,
@@ -232,7 +232,7 @@ export default function ResumeBuilder() {
                 <div className="space-y-6">
                     {/* FORM */}
                     <div className="rounded-lg border border-gray-300 bg-white p-6 space-y-6">
-                        <div className="flex justify-between gap-4 pb-3 border-b border-gray-300">
+                        <div className="flex justify-between sm:gap-4 gap-2 pb-3 border-b border-gray-300">
                             <div className="flex flex-col text-sm relative">
                                 <button
                                     onClick={() => setToggleAccents(prev => !prev)}
@@ -240,13 +240,13 @@ export default function ResumeBuilder() {
                                     className="peer flex items-center gap-2 rounded-md text-sm border-transparent bg-(--primary)/10 text-(--primary) border px-5 py-2 hover:border-(--primary) cursor-pointer"
                                 >
                                     <Palette className="w-4 h-4" />
-                                    <span>Accent</span>
+                                    <span className="hidden sm:block">Accent</span>
                                 </button>
                                 {toggleAccents && (
                                     <ul
                                         className="absolute top-10 left-0 right-0 z-20
                grid grid-cols-4 bg-white border border-gray-300
-               w-65 gap-2 rounded-md shadow-md mt-2 p-3"
+               sm:w-65 w-55 gap-2 rounded-md shadow-md mt-2 p-3"
                                     >
                                         {Object.entries(accentColors).map(([key, color]) => (
                                             <div
@@ -290,7 +290,7 @@ export default function ResumeBuilder() {
                                 {step < steps.length && (
                                     <button
                                         onClick={() => setStep(step + 1)}
-                                        className="flex items-center gap-2 text-sm cursor-pointer"
+                                        className="flex items-center gap-2 sm:text-sm text-[13px]  cursor-pointer"
                                     >
                                         Next
                                         <ChevronRight className="h-4 w-4" />
@@ -455,7 +455,7 @@ export default function ResumeBuilder() {
                                 onAdd={(newItem) =>
                                     setData(prev => ({
                                         ...prev,
-                                        projects: [...(prev.projects || []), newItem || { name: "", desc: "", type: "" }]
+                                        projects: [...(prev.projects || []), newItem || { name: "", projectType: "", desc: "" }]
                                     }))
                                 }
                                 onRemove={(i) =>
@@ -477,8 +477,8 @@ export default function ResumeBuilder() {
                                         />
                                         <Input
                                             placeholder="Project Type"
-                                            value={item.type}
-                                            onChange={(v) => updateItem("type", v)}
+                                            value={item.projectType}
+                                            onChange={(v) => updateItem("projectType", v)}
                                         />
                                         <Textarea
                                             label="Describe your project..."
@@ -602,7 +602,7 @@ export default function ResumeBuilder() {
                                 <ul key={i} className="space-y-3 ">
                                     <div className="flex justify-between items-start border-l-3 border-gray-300 pl-6"><div>
                                         <li className="font-semibold text-gray-800 ">{p.name}</li>
-                                        <p className="text-gray-700 font-medium">{p.type}</p>
+                                        <p className="text-gray-700 font-medium">{p.projectType}</p>
                                         <p className="text-gray-600">{p.desc}</p>
                                     </div>
                                     </div>
@@ -706,7 +706,7 @@ const Repeatable = ({
     type // optional type for new items
 }) => (
     <div className="space-y-4">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-3 items-start sm:flex-row justify-between sm:items-center">
             {title && (
                 <div>
                     <h3 className="text-lg font-semibold mb-1">{title}</h3>
@@ -717,7 +717,7 @@ const Repeatable = ({
                 onClick={() =>
                     onAdd(type ? { type, title: "", company: "", desc: "" } : undefined)
                 }
-                className="flex items-center gap-2 text-sm text-[var(--primary)] bg-(--primary)/10 px-3 rounded-lg py-1 cursor-pointer"
+                className="flex items-center gap-2 text-sm border border-transparent hover:border-(--priamry) text-[var(--primary)] bg-(--primary)/10 px-3 rounded-lg py-1 cursor-pointer"
             >
                 <Plus className="h-4 w-4" />
                 Add {type || ""}
