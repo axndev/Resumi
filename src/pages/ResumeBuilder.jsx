@@ -188,8 +188,8 @@ export default function ResumeBuilder() {
     }, [step]);
     return (
         <div className="min-h-screen bg-gray-50 pt-0 pb-25">
-            <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between">
-                <Link to="/app" class="inline-flex text-sm gap-2 items-center text-slate-500 hover:text-slate-700 transition-all">
+            <div className="max-w-7xl mx-auto px-4 py-6 flex justify-between">
+                <Link to="/app" className="inline-flex text-sm gap-2 items-center text-slate-500 hover:text-slate-700 transition-all">
                     <ArrowLeft className="w-4" />  Back to Dashboard
                 </Link>
                 <button
@@ -745,7 +745,7 @@ const Repeatable = ({
                 key={i}
                 className="rounded-lg border border-gray-300 px-4 py-5 space-y-3 relative"
             >
-                <h2 className="mb-0">{type + " #" + (i + 1)}</h2>
+                <h2 className="mb-2">{type + " #" + (i + 1)}</h2>
                 {render(item, (key, value) => {
                     const updated = items.map((it, idx) =>
                         idx === i ? { ...it, [key]: value } : it
@@ -765,13 +765,3 @@ const Repeatable = ({
         ))}
     </div>
 );
-
-
-
-const Section = ({ title, children }) =>
-    children ? (
-        <div className="mt-6">
-            <h3 className="mb-2 text-sm font-semibold">{title}</h3>
-            <div className="space-y-2">{children}</div>
-        </div>
-    ) : null

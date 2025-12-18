@@ -1,4 +1,4 @@
-import { Download, KeyRound, SquarePen } from "lucide-react"
+import { Download, KeyRound, SquarePen, Zap } from "lucide-react"
 import React, { useState } from "react"
 
 
@@ -35,7 +35,7 @@ export default function Features() {
   return (
     <div id="features" className="flex flex-col items-center my-10 mt-25">
       <div className="flex items-center gap-2 text-sm text-(--primary) bg-(--primary)/10 rounded-full px-6 py-1.5">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-zap" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>
+        <Zap className="w-4" />
         <span>Simple Process</span>
       </div>
       <div className="text-center mt-6 text-slate-700">
