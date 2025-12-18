@@ -246,7 +246,7 @@ export default function ResumeBuilder() {
                                     <ul
                                         className="absolute top-10 left-0 right-0 z-20
                grid grid-cols-4 bg-white border border-gray-300
-               sm:w-65 w-55 gap-2 rounded-md shadow-md mt-2 p-3"
+               sm:w-65 w-62 gap-2 rounded-md shadow-md mt-2 p-3"
                                     >
                                         {Object.entries(accentColors).map(([key, color]) => (
                                             <div
