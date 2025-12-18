@@ -16,7 +16,7 @@ const colorVariants = [
     { bg: "bg-indigo-200", border: "border-indigo-300", text: "text-indigo-600", muted: "text-indigo-400" },
     { bg: "bg-green-200", border: "border-green-300", text: "text-green-600", muted: "text-green-400" },
     { bg: "bg-pink-200", border: "border-pink-300", text: "text-pink-600", muted: "text-pink-400" },
-    { bg: "bg-yellow-200", border: "border-yellow-300", text: "text-yellow-600", muted: "text-yellow-400" },
+    { bg: "bg-yellow-100", border: "border-yellow-400", text: "text-yellow-600", muted: "text-yellow-500" },
     { bg: "bg-blue-200", border: "border-blue-300", text: "text-blue-600", muted: "text-blue-400" },
 ];
 
@@ -107,7 +107,7 @@ export default function Dashboard() {
                         <span className="bg-indigo-400 p-2.5 rounded-full text-white"><Plus /></span>
                         <p className="text-[13px]">Create Resume</p>
                     </button>
-                    <button className="w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border border-dashed border-slate-300">
+                    <button className="w-full cursor-not-allowed sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border border-dashed border-slate-300">
                         <span className="bg-purple-400 p-2.5 rounded-full text-white"><CloudUpload /></span>
                         <p className="text-[13px]">Upload Existing</p>
                     </button>
