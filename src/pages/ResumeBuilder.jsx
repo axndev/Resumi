@@ -495,7 +495,7 @@ export default function ResumeBuilder() {
                                 <p className="text-sm text-gray-700">Add your technical and soft skills</p>
                                 <div className="flex gap-2 items-center">
                                     <Input
-                                        placeholder="Full Name"
+                                        placeholder="Enter a skill (e.g., JavaScript, Project Management)"
                                         value={data.skillInput}
                                         onChange={(v) => skillUpdate("skillInput", v)}
                                     />
