@@ -481,7 +481,7 @@ export default function ResumeBuilder() {
                                             onChange={(v) => updateItem("projectType", v)}
                                         />
                                         <Textarea
-                                            label="Describe your project..."
+                                            placeholder="Describe your project..."
                                             value={item.desc}
                                             onChange={(v) => updateItem("desc", v)}
                                         />
