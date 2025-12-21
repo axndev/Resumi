@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
+import Alert from "../components/ui/Alert";
 
 const colorVariants = [
     { bg: "bg-purple-200", border: "border-purple-300", text: "text-purple-600", muted: "text-purple-400" },
@@ -90,6 +91,7 @@ export default function Dashboard() {
                 createdAt: new Date().toISOString(),
                 data: {},
                 accent: "#3B82F6",
+                template: "Classic"
             };
             updatedResumes = [...userResumes, newResume];
             showAlert("success", "Created", "New resume created");
@@ -183,15 +185,7 @@ export default function Dashboard() {
                 </div>
             )}
             {/* Alert */}
-            <div
-                className={`fixed alert left-1/2 -translate-x-1/2 bg-white rounded-md shadow p-4 flex gap-2
-              ${visible ? 'animate-slide-down top-2 scale-100' : '-top-30 scale-50'}`}
-            >
-                <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
-                <div>
-                    <h3 className="font-medium text-sm">{alert?.title}</h3>
-                </div>
-            </div>
+            <Alert alert={alert} visible={visible} />
         </div>
     );
 }

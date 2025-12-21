@@ -53,11 +53,20 @@ src/
 │  ├─ Header.jsx
 │  ├─ Footer.jsx
 │  ├─ Logo.jsx
-│  └─ Home/
-│     ├─ HeroSection.jsx
-│     ├─ Features.jsx
-│     ├─ Testimonials.jsx
-│     └─ CallToAction.jsx
+│  ├─  Home/
+│  |  ├─ HeroSection.jsx
+│  |  ├─ Features.jsx
+│  |  ├─ Testimonials.jsx
+│  |  └─ CallToAction.jsx
+│  ├─ Templates/
+│  |  ├─ Classic.jsx
+│  |  └─ Modern.jsx
+│  ├─  UI/
+│  |  ├─ Alert.jsx
+│  |  ├─ Input.jsx
+│  |  ├─ Repeatable.jsx
+|  |  └─ Textarea.jsx
+|  └─
 ├─ pages/
 │ ├─ Dashboard.jsx
 │ ├─ Login.jsx
@@ -111,6 +120,8 @@ Open http://localhost:5173
 
 * All resumes are saved per user in the browser’s localStorage.
 
+* Themes and templates for resumes.
+
 ### Future Improvements
 
 * Save resumes to a database (Firebase / Supabase)
@@ -119,7 +130,6 @@ Open http://localhost:5173
 
 * Add drag-and-drop ordering for sections
 
-* Add themes and templates for resumes
 
 
 ### Author

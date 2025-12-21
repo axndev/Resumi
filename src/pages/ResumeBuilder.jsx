@@ -7,7 +7,6 @@ import {
     GraduationCap,
     FolderGit2,
     Plus,
-    Trash2,
     ChevronRight,
     ChevronLeft,
     Palette,
@@ -21,8 +20,15 @@ import {
     X,
     ArrowLeft,
     CheckCircle,
+    LayoutTemplate,
 } from "lucide-react"
 import { useAuth } from "@clerk/clerk-react"
+import Classic from "../components/Templates/Classic";
+import Modern from "../components/Templates/Modern";
+import Input from "../components/ui/Input";
+import Textarea from "../components/ui/Textarea";
+import Repeatable from "../components/ui/Repeatable";
+import Alert from "../components/ui/Alert";
 
 const steps = [
     { id: 1, title: "Personal", icon: User },
@@ -41,8 +47,8 @@ export default function ResumeBuilder() {
     const [visible, setVisible] = useState(false);
     const resumeTitle = location.state?.title || "";
     const [step, setStep] = useState(1);
-    const [template, setTemplate] = useState();
     const [toggleAccents, setToggleAccents] = useState(false);
+    const [toggleTemplates, setToggleTemplates] = useState(false);
 
     const [data, setData] = useState({
         id: null,
@@ -59,6 +65,7 @@ export default function ResumeBuilder() {
         skills: [],
         skillInput: "",
         accent: localStorage.getItem("accent") || "#3B82F6",
+        template: localStorage.getItem("templates") || "Modern",
     });
 
     const [userResumes, setUserResumes] = useState([]);
@@ -163,11 +170,28 @@ export default function ResumeBuilder() {
         black: "#1F2937",
     };
 
-    const handleAccentChange = (newAccent) => {
-        setData(prev => ({ ...prev, accent: newAccent })); 
-        localStorage.setItem("accent", newAccent);          
+    const templates = {
+        Classic: "A clean, traditional resume format with clear sections and professional typography",
+        Modern: "Sleek design with strategic use of color and modern font choices"
     };
 
+    const handleAccentChange = (newAccent) => {
+        setData(prev => ({ ...prev, accent: newAccent }));
+        localStorage.setItem("accent", newAccent);
+    };
+
+    const handleTemplateChange = (newTemplate) => {
+        setData(prev => ({ ...prev, template: newTemplate }));
+        localStorage.setItem("template", newTemplate);
+    };
+
+    const formatUrl = (url) => {
+        if (!url) return "#";
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return url;
+        }
+        return "https://" + url;
+    };
 
     // Scroll to top on step change
     useEffect(() => {
@@ -175,6 +199,8 @@ export default function ResumeBuilder() {
     }, [step]);
     return (
         <div className="min-h-screen bg-gray-50 pt-0 pb-25">
+
+            {/* Breadcrumbs */}
             <div className="max-w-7xl mx-auto px-4 py-6 flex justify-between">
                 <Link to="/app" className="inline-flex text-sm gap-2 items-center text-slate-500 hover:text-slate-700 transition-all">
                     <ArrowLeft className="w-4" />  Back to Dashboard
@@ -187,6 +213,7 @@ export default function ResumeBuilder() {
                     Download Pdf
                 </button>
             </div>
+
             {/* STEPS */}
             <div className="md:flex flex-wrap gap-3 items-center justify-center mb-10 hidden">
                 {steps.map((s) => {
@@ -214,54 +241,97 @@ export default function ResumeBuilder() {
                     Download Pdf
                 </button>
             </div>
+
+            {/* Resume Builder */}
             <div className="mx-auto grid gap-8 px-6 md:grid-cols-[0.8fr_1.2fr] max-w-7xl">
                 {/* LEFT */}
                 <div className="space-y-6">
                     {/* FORM */}
                     <div className="rounded-lg border border-gray-300 bg-white p-6 space-y-6">
                         <div className="flex justify-between sm:gap-4 gap-2 pb-3 border-b border-gray-300">
-                            <div className="flex flex-col text-sm relative">
-                                <button
-                                    onClick={() => setToggleAccents(prev => !prev)}
-                                    type="button"
-                                    className="peer flex items-center gap-2 rounded-md text-sm border-transparent bg-(--primary)/10 text-(--primary) border px-5 py-2 hover:border-(--primary) cursor-pointer"
-                                >
-                                    <Palette className="w-4 h-4" />
-                                    <span className="hidden sm:block">Accent</span>
-                                </button>
-                                {toggleAccents && (
-                                    <ul
-                                        className="absolute top-10 left-0 right-0 z-20
+                            <div className="flex items-center gap-2">
+                                <div className="flex flex-col text-sm relative">
+                                    <button
+                                        onClick={() => setToggleTemplates(prev => !prev)}
+                                        type="button"
+                                        className="peer flex items-center gap-2 rounded-md text-sm border-transparent bg-(--primary)/10 text-(--primary) border px-4 py-2 hover:border-(--primary) cursor-pointer"
+                                    >
+                                        <LayoutTemplate className="w-4 h-4" />
+                                        <span className="hidden sm:block">Template</span>
+                                    </button>
+                                    {toggleTemplates && (
+                                        <ul
+                                            className="absolute top-10 left-0 right-0 z-20
+               flex flex-col gap-2 bg-white border border-gray-300
+               sm:w-75 w-65 gap-2 rounded-md shadow-md mt-2 p-3"
+                                        >
+                                            {Object.entries(templates).map(([key, desc]) => (
+                                                <div
+                                                    onClick={() => {
+                                                        handleTemplateChange(key);
+                                                        setToggleTemplates(false);
+                                                    }}
+                                                    key={key} className="relative p-3 border rounded-md cursor-pointer transition-all border-gray-300 hover:border-gray-400 hover:bg-gray-100">
+                                                    {data.template == key &&
+                                                        <div className="absolute top-2 right-2">
+                                                            <div className="size-5 bg-blue-400 text-white rounded-full flex items-center justify-center">
+                                                                <Check className="w-4" />
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <div className="space-y-1">
+                                                        <h4 className="font-medium text-gray-800">{key}</h4>
+                                                        <div className="mt-2 p-2 bg-blue-50 rounded text-xs text-gray-500 italic">
+                                                            {desc}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
+                                <div className="flex flex-col text-sm relative">
+                                    <button
+                                        onClick={() => setToggleAccents(prev => !prev)}
+                                        type="button"
+                                        className="peer flex items-center gap-2 rounded-md text-sm border-transparent bg-blue-100 text-blue-500 border px-4 py-2 hover:border-blue-500 cursor-pointer"
+                                    >
+                                        <Palette className="w-4 h-4" />
+                                        <span className="hidden sm:block">Accent</span>
+                                    </button>
+                                    {toggleAccents && (
+                                        <ul
+                                            className="absolute top-10 left-0 right-0 z-20
                grid grid-cols-4 bg-white border border-gray-300
                sm:w-65 w-62 gap-2 rounded-md shadow-md mt-2 p-3"
-                                    >
-                                        {Object.entries(accentColors).map(([key, color]) => (
-                                            <div
-                                                key={key}
-                                                className="flex flex-col gap-1 items-center cursor-pointer"
-                                                onClick={() => {
-                                                    handleAccentChange(color);
-                                                    setToggleAccents(false);
-                                                }}
-                                            >
-                                                <li
-                                                    className={`relative w-12 h-12 rounded-full
+                                        >
+                                            {Object.entries(accentColors).map(([key, color]) => (
+                                                <div
+                                                    key={key}
+                                                    className="flex flex-col gap-1 items-center cursor-pointer"
+                                                    onClick={() => {
+                                                        handleAccentChange(color);
+                                                        setToggleAccents(false);
+                                                    }}
+                                                >
+                                                    <li
+                                                        className={`relative w-12 h-12 rounded-full
                       hover:border-2 hover:border-gray-600
                       ${data.accent === color ? "border-2 border-gray-300" : ""}`}
-                                                    style={{ backgroundColor: color }}
-                                                >
-                                                    {data.accent === color && (
-                                                        <Check
-                                                            className="absolute inset-0 m-auto text-white w-4 h-4"
-                                                        />
-                                                    )}
-                                                </li>
-                                                <span className="text-[12px] capitalize text-gray-600">{key}</span>
-                                            </div>
-                                        ))}
-                                    </ul>
-                                )}
-
+                                                        style={{ backgroundColor: color }}
+                                                    >
+                                                        {data.accent === color && (
+                                                            <Check
+                                                                className="absolute inset-0 m-auto text-white w-4 h-4"
+                                                            />
+                                                        )}
+                                                    </li>
+                                                    <span className="text-[12px] capitalize text-gray-600">{key}</span>
+                                                </div>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
                             </div>
                             <div className="flex gap-4">
                                 {step > 1 && (
@@ -530,226 +600,14 @@ export default function ResumeBuilder() {
                 </div>
                 {/* RIGHT — PREVIEW */}
                 <div className="w-full" ref={previewRef}>
-                    <div id="resume-preview" className="border border-gray-300 print:shadow-none print:border-none "><div className="max-w-4xl mx-auto p-8 bg-white text-gray-800 leading-relaxed">
-                        <header className="text-center mb-8 pb-6 border-b-2" style={{ borderColor: data.accent }}>
-                            <h1 className="text-3xl font-bold mb-2" style={{ color: data.accent }}>{data.name || "Your Name"}</h1>
-                            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
-                                {data.email &&
-                                    <div className="flex items-center gap-1">
-                                        <Mail className="w-4 h-4" />
-                                        <span>{data.email}</span>
-                                    </div>
-                                }
-                                {data.phone &&
-                                    <div className="flex items-center gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-phone size-4" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-                                        <span>{data.phone}</span>
-                                    </div>
-                                }
-                                {data.location &&
-                                    <div className="flex items-center gap-1">
-                                        <MapPin className="w-4 h-4" />
-                                        <span>{data.location}</span>
-                                    </div>
-                                }    {data.linkedin &&
-                                    <div className="flex items-center gap-1">
-                                        <Linkedin className="w-4 h-4" />
-                                        <span className="break-all">{data.linkedin}</span>
-                                    </div>
-                                }    {data.website &&
-                                    <div className="flex items-center gap-1">
-                                        <Globe className="w-4 h-4" />
-                                        <span className="break-all">{data.website}</span>
-                                    </div>
-                                }
-                            </div>
-                        </header>
-                        {data.summary &&
-                            <section className="mb-6">
-                                <h2 className="text-xl font-semibold mb-3" style={{ color: data.accent }}>PROFESSIONAL SUMMARY</h2>
-                                <p className="text-gray-700 leading-relaxed">{data.summary}</p>
-                            </section>
-                        }
-                        {Array.isArray(data.experience) && data.experience.length > 0 &&
-                            <section className="mb-6">
-                                <h2 className="text-xl font-semibold mb-4" style={{ color: data.accent }}>PROFESSIONAL EXPERIENCE</h2>
-                                <div className="space-y-4">
-                                    {(data.experience || []).map((e, i) => (
-                                        <div className="border-l-3 pl-4" style={{ borderColor: data.accent }} key={i}>
-                                            <div className="flex justify-between items-start mb-2">
-                                                <div>
-                                                    <h3 className="font-semibold text-gray-900">{e.company}</h3>
-                                                    <p className="text-gray-700 font-medium">{e.job}</p>
-                                                </div>
-                                                <div className="text-right text-sm text-gray-600">
-                                                    <p>{e.duration}</p>
-                                                </div>
-                                            </div>
-                                            <div className="text-gray-700 leading-relaxed whitespace-pre-line">{e.desc}</div>
-                                        </div>
-
-                                    ))}
-                                </div>
-                            </section>
-                        }
-                        {Array.isArray(data.projects) && data.projects.length > 0 &&
-                            <section className="mb-6">
-                                <h2 className="text-xl font-semibold mb-4" style={{ color: data.accent }}>PROJECTS</h2>
-
-                                {(data.projects || []).map((p, i) => (
-                                    <ul key={i} className="space-y-3 ">
-                                        <div className="flex justify-between items-start border-l-3 border-gray-300 pl-6"><div>
-                                            <li className="font-semibold text-gray-800 ">{p.name}</li>
-                                            <p className="text-gray-700 font-medium">{p.projectType}</p>
-                                            <p className="text-gray-600">{p.desc}</p>
-                                        </div>
-                                        </div>
-                                    </ul>
-                                ))}
-                            </section>
-                        }
-                        {Array.isArray(data.education) && data.education.length > 0 &&
-                            <section className="mb-6">
-                                <h2 className="text-xl font-semibold mb-4" style={{ color: data.accent }}>EDUCATION</h2>
-                                <div className="space-y-3">
-                                    {(data.education || []).map((e, i) => (
-                                        <div key={i} className="flex justify-between items-start"><div>
-                                            <h3 className="font-semibold text-gray-900">{e.degree}</h3>
-                                            <p className="text-gray-700">{e.school}</p>
-                                            {e.gpa && <p className="text-sm text-gray-600">GPA: {e.gpa}</p>}
-                                        </div>
-                                            <div className="text-sm text-gray-600">
-                                                <p>{e.year}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        }
-                        {Array.isArray(data.skills) && data.skills.length > 0 &&
-                            <section className="mb-6">
-                                <h2 className="text-xl font-semibold mb-4" style={{ color: data.accent }}>CORE SKILLS</h2>
-                                <div className="flex gap-4 flex-wrap">
-                                    {(data.skills || []).map((skill, i) => (
-                                        <div key={i} className="text-gray-700">• {skill}</div>
-                                    ))}
-                                </div>
-                            </section>
-                        }
-                    </div>
-                    </div>
+                    {data.template === "Classic" && <Classic data={data} />}
+                    {data.template === "Modern" && <Modern data={data} formatUrl={formatUrl} />}
                 </div>
             </div>
 
-            <div
-                className={`fixed alert left-1/2 -translate-x-1/2 bg-white rounded-md shadow p-4 flex gap-2
-  ${visible ? 'animate-slide-down top-2 scale-100' : '-top-30 scale-50'}`}
-            >
-                <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
-                <div>
-                    <h3 className="font-medium text-sm">{alert?.title}</h3>
-                </div>
-            </div>
-
+            {/* Alert */}
+            <Alert alert={alert} visible={visible} />
         </div>
     )
 }
 
-/* ---------- SMALL COMPONENTS ---------- */
-const Input = ({
-    label,
-    value,
-    onChange,
-    required = false,
-    icon: Icon = null,
-    placeholder = "", // new prop
-}) => (
-    <div className="w-full">
-        {label && <label className="text-sm font-medium flex items-center gap-2 mb-2 text-gray-600">
-            {Icon && <Icon className="w-4 h-4" />}
-            <span>
-                {label}
-                {required && <span className="text-red-500 ml-1">*</span>}
-            </span>
-        </label>}
-        <input
-            value={value || ''}
-            onChange={(e) => onChange(e.target.value)}
-            required={required}
-            placeholder={placeholder} // added here
-            className="mt-1 h-10 w-full rounded-md border border-gray-300 px-3
-                    outline-none focus:ring-2 ring-[var(--primary)] text-sm w-full"
-        />
-    </div>
-);
-
-
-
-const Textarea = ({ label, value, onChange, placeholder = "" }) => (
-    <div className="mb-0">
-        <label className="text-sm font-medium mb-2 text-gray-600">{label}</label>
-        <textarea
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={placeholder} // added here
-            className="resize-none mt-1 w-full rounded-md border border-gray-300 px-3 py-2 outline-none focus:ring-2 ring-[var(--primary)] text-sm"
-            rows={6}
-        />
-    </div>
-);
-
-
-const Repeatable = ({
-    items = [],
-    onAdd,
-    onRemove,
-    onChange,
-    render,
-    title,
-    description,
-    type // optional type for new items
-}) => (
-    <div className="space-y-4">
-        <div className="flex flex-col gap-3 items-start sm:flex-row justify-between sm:items-center">
-            {title && (
-                <div>
-                    <h3 className="text-lg font-semibold mb-1">{title}</h3>
-                    {description && <p className="text-sm text-gray-700">{description}</p>}
-                </div>
-            )}
-            <button
-                onClick={() =>
-                    onAdd(type ? { type, title: "", company: "", desc: "" } : undefined)
-                }
-                className="flex items-center gap-2 text-sm border border-transparent hover:border-(--priamry) text-[var(--primary)] bg-(--primary)/10 px-3 rounded-lg py-1 cursor-pointer"
-            >
-                <Plus className="h-4 w-4" />
-                Add {type || ""}
-            </button>
-        </div>
-
-        {items.map((item, i) => (
-            <div
-                key={i}
-                className="rounded-lg border border-gray-300 px-4 py-5 space-y-3 relative"
-            >
-                <h2 className="mb-2">{type + " #" + (i + 1)}</h2>
-                {render(item, (key, value) => {
-                    const updated = items.map((it, idx) =>
-                        idx === i ? { ...it, [key]: value } : it
-                    );
-                    onChange(updated);
-                })}
-
-                {items.length > 0 && (
-                    <button
-                        onClick={() => onRemove(i)}
-                        className="flex items-center gap-1 text-sm text-red-500 hover:text-red-700 absolute top-5 right-4 cursor-pointer"
-                    >
-                        <Trash2 className="h-4 w-4" />
-                    </button>
-                )}
-            </div>
-        ))}
-    </div>
-);
