@@ -34,7 +34,7 @@ function Modern({ data, formatUrl }) {
                         {data.website &&
                             <a target="_blank" href={formatUrl(data.website)} className="flex items-center gap-2">
                                 <Globe className="w-4" />
-                                <span className="break-all text-xs">w{data.website}</span>
+                                <span className="break-all text-xs">{data.website}</span>
                             </a>
                         }
                     </div>
