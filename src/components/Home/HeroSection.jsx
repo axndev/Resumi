@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ArrowRight, ChevronsRight, LayoutDashboard, Star } from 'lucide-react'
+import { ArrowRight, ChevronsRight, LayoutDashboard, LayoutTemplate, Star } from 'lucide-react'
 import { Link } from "react-router-dom"
 import { useUser, UserButton } from "@clerk/clerk-react";
 import { Menu, X } from "lucide-react";
@@ -144,64 +144,51 @@ export default function HeroSection() {
           </div>
         </nav>
       </header>
+      <svg class="size-full absolute -z-10 inset-0" width="1440" height="720" viewBox="0 0 1440 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path stroke="#E2E8F0" stroke-opacity=".7" d="M-15.227 702.342H1439.7" />
+        <circle cx="711.819" cy="372.562" r="308.334" stroke="#E2E8F0" stroke-opacity=".7" />
+        <circle cx="16.942" cy="20.834" r="308.334" stroke="#E2E8F0" stroke-opacity=".7" />
+        <path stroke="#E2E8F0" stroke-opacity=".7" d="M-15.227 573.66H1439.7M-15.227 164.029H1439.7" />
+        <circle cx="782.595" cy="411.166" r="308.334" stroke="#E2E8F0" stroke-opacity=".7" />
+      </svg>
+
       <div id="home" className="relative mt-23 mb-15 flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black">
-        <div className="absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-(--primary) blur-[100px] opacity-30"></div>
-
-        {/* Avatars + Stars */}
-        <div className="flex items-center mt-24">
-          <div className="flex -space-x-3 pr-3">
-            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200" alt="user3" className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[1]" />
-            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200" alt="user1" className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-2" />
-            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200" alt="user2" className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[3]" />
-            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200" alt="user3" className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[4]" />
-            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="user5" className="size-8 rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[5]" />
-          </div>
-
-          <div>
-            <div className="flex ">
+        <div class=" mt-14 flex flex-wrap items-center justify-center p-1.5 rounded-full  border-slate-400 text-gray-500 text-xs">
+          <div className="flex items-center gap-1">
+            <div className="flex items-center">
               {Array(5).fill(0).map((_, i) => (
                 <Star key={i} className="fill-(--primary) stroke-none w-4"></Star>
               ))}
             </div>
             <p className="text-sm text-gray-700">
-              Used by 10,000+ users
+              Trusted by 10,000+ job seekers
             </p>
           </div>
         </div>
 
         {/* Headline + CTA */}
-        <h1 className="text-5xl md:text-6xl font-semibold max-w-5xl text-center mt-4 md:leading-[70px]">
-          Land your dream job with <span className=" bg-gradient-to-r from-indigo-700 to-indigo-600 bg-clip-text text-transparent text-nowrap">AI-powered </span> resumes.
+        <h1 className="text-5xl md:text-6xl font-semibold max-w-3xl text-center mt-4 md:leading-[70px]">
+          Make a <span className="highlightedText">Professional</span> <span className="highlightedText">Resume</span> in Minutes
         </h1>
 
-        <p className="max-w-md text-center text-base my-7">Create, edit and download professional resumes with AI-powered assistance.
+        <p className="max-w-md text-center text-base my-7">Build, edit, and download professional resumes in minutes. AI-guided suggestions make sure your experience shines.
 
         </p>
 
         {/* CTA Buttons */}
         <div className="flex flex-col md:flex-row items-center gap-4 ">
-          <Link to='/app' className="bg-(--primary) gap-1 hover:bg-(--primary)/90 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-indigo-400 flex items-center transition-colors">
-            <span>Get started</span>
+          <Link to='/app' class="flex items-center gap-2 bg-(--primary) hover:bg-(--primary)/90 text-white active:scale-95 rounded-md px-7 h-11">
+            <span>Build Resume</span>
             <ArrowRight className="w-4" />
           </Link>
-          <Link to="/app" className="flex items-center gap-1 border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700">
-            <LayoutDashboard className="w-4" />
-            <span>Dashboard</span>
-          </Link>
+          <button class="cursor-not-allowed flex items-center gap-2 border border-slate-300 active:scale-95 hover:bg-white/10 transition text-slate-600 rounded-md px-6 h-11">
+            <LayoutTemplate className="w-4 h-4" />
+            <span>See Templates</span>
+          </button>
         </div>
 
-        <p className="py-6 text-slate-600 mt-14 mb-5">Trusting by leading brands, including</p>
-
-        <div className="overflow-hidden w-full relative max-w-5xl mx-auto select-none">
-          <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent" />
-
-          <div className="flex marquee-inner will-change-transform max-w-5xl mx-auto">
-            {[...companiesLogo, ...companiesLogo].map((company, index) => (
-              <img key={index} className="mx-11" src={company.logo} alt={company.name} />
-            ))}
-          </div>
-
-          <div className="absolute right-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent" />
+        <div className="border border-slate-200 mt-10 shadow-lg rounded-lg w-full overflow-hidden">
+          <img  src="/images/builder-preview.png" className="w-full" />
         </div>
       </div>
     </>

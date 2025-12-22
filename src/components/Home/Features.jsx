@@ -1,4 +1,4 @@
-import { Download, KeyRound, SquarePen, Zap } from "lucide-react"
+import { Bot, Download, KeyRound, MonitorSmartphone, ScrollText, SquarePen, Zap } from "lucide-react"
 import React, { useState } from "react"
 
 
@@ -8,22 +8,19 @@ export default function Features() {
   const [hoverIndex, setHoverIndex] = useState(null);
   const features = [
     {
-      title: "Real-Time Analytics",
-      desc: "Get instant insights into your finances with live dashboards.",
-      color: "violet",
-      icon: (<KeyRound className="w-6 text-violet-600" />),
+      title: "AI-Powered Resume Builder",
+      desc: "Generate professional resumes in minutes with intelligent suggestions and formatting guidance.",
+      icon: (<Bot className="w-6 " />),
     },
     {
-      title: "Bank-Grade Security",
-      desc: "End-to-end encryption, 2FA, compliance with GDPR standards.",
-      color: "green",
-      icon: (<SquarePen className="w-6 text-green-600" />),
+      title: "ATS-Friendly Templates",
+      desc: "Use ready-made templates that pass applicant tracking systems and highlight your skills effectively.",
+      icon: (<ScrollText className="w-6 " />),
     },
     {
-      title: "Customizable Reports",
-      desc: "Export professional, audit-ready financial reports for tax or internal review.",
-      color: "orange",
-      icon: (<Download className="w-6 text-orange-600" />),
+      title: "Mobile & Desktop Ready",
+      desc: "Build and download resumes seamlessly on any device, anytime, without compatibility issues.",
+      icon: (<MonitorSmartphone className="w-6 " />),
     },
   ]
   const colorMap = {
@@ -33,45 +30,21 @@ export default function Features() {
   };
 
   return (
-    <div id="features" className="flex flex-col items-center my-10 mt-25">
-      <div className="flex items-center gap-2 text-sm text-(--primary) bg-(--primary)/10 rounded-full px-6 py-1.5">
-        <Zap className="w-4" />
-        <span>Simple Process</span>
+    <div id="features" className="flex flex-col max-w-5xl m-auto my-10">
+      <div className="text-left mt-6">
+        <h2 class="text-5xl font-semibold">Powerful Features</h2>
+        <p class="text-slate-500  mt-2 max-w-md">Everything you need to manage, track, and grow your finances, securely and efficiently.</p>
       </div>
-      <div className="text-center mt-6 text-slate-700">
-        <h2 className="text-3xl sm:text-4xl font-medium">Build your resume</h2>
-        <p className="max-sm max-w-2xl mt-4 text-slate-500">Our streamlined process helps you create a professional resume in minutes with intelligent AI-powered tools and process.</p>
-      </div>
-      <div className="flex flex-col md:flex-row items-center xl:-mt-10">
-        <img className="max-w-3xl w-full xl:-ml-32" alt="" src="/images/process.png" />
-        <div className="flex flex-col gap-4">
-          {features.map((item, i) => {
-            const isActive = hoverIndex === i || (hoverIndex === null && i === 0); // first active by default
-
-            return (
-              <div
-                key={i}
-                className="flex items-center justify-center gap-6 max-w-md cursor-pointer"
-                onMouseEnter={() => setHoverIndex(i)}
-                onMouseLeave={() => setHoverIndex(null)}
-              >
-                <div
-                  className={`p-6 flex gap-4 rounded-xl transition-colors border
-    ${isActive ? colorMap[item.color] : "border-transparent"}`}
-                >
-                  {item.icon}
-                  <div className="space-y-2">
-                    <h3 className="text-base font-semibold text-slate-700">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm max-w-xs text-slate-600">{item.desc}</p>
-                  </div>
-                </div>
-
-              </div>
-            );
-          })}
-        </div>
+      <div class="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+        {features.map((item, i) => (
+          <div class='bg-linear-to-b text-(--primary) from-white to-(--primary)/20 border border-slate-200 rounded-lg p-6 space-y-3 hover:-translate-y-1 transition duration-300'>
+            <div className="p-2 bg-white/50 max-w-fit rounded border border-slate-300 text-(--primary)/50">
+              {item.icon}
+            </div>
+            <p class='font-medium text-lg text-slate-900'>{item.title}</p>
+            <p class='text-sm/5 text-slate-500'> {item.desc}</p>
+          </div>
+        ))}
       </div>
     </div>
   )
