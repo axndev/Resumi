@@ -90,6 +90,7 @@ export default function Footer() {
             <div className="relative mt-3">
               <textarea
                 rows={3}
+                required
                 name="message"
                 placeholder="Write your message…"
                 className="w-full resize-none rounded-lg border border-gray-200 bg-white/60 px-3 py-2 pr-12 text-[13px] text-gray-900 outline-none transition focus:border-(--primary)/20 focus:ring-2 focus:ring-(--primary)/20"
