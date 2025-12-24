@@ -76,26 +76,31 @@ export default function Footer() {
           </div>
 
           {/* NEWSLETTER (replaced Legal) */}
-          <form className="space-y-3">
-            <label className="block font-medium text-gray-900">
-              Newsletter
-            </label>
-            <p className="text-gray-700 text-sm">
-              Subscribe to our newsletter to get the latest news and updates.
-            </p>
-            <div className="flex items-center gap-2">
+          <form className="space-y-2" action="https://formspree.io/f/xpqanvvn"
+            method="POST">
+            <div>
+              <label className="block font-semibold text-gray-900">
+                Contact us
+              </label>
+              <p className="text-[13px] text-gray-600 mt-2">
+                Have a question or feedback? We’d love to hear from you.
+              </p>
+            </div>
 
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="h-10 w-full rounded-md border border-gray-200 px-3 bg-white/40 outline-none transition focus:ring-2 focus:ring-gray-200 text-[13px]"
+            <div className="relative mt-3">
+              <textarea
+                rows={3}
+                name="message"
+                placeholder="Write your message…"
+                className="w-full resize-none rounded-lg border border-gray-200 bg-white/60 px-3 py-2 pr-12 text-[13px] text-gray-900 outline-none transition focus:border-(--primary)/20 focus:ring-2 focus:ring-(--primary)/20"
               />
 
               <button
                 type="submit"
-                aria-label="Subscribe"
-                className="flex h-10 w-12 cursor-pointer items-center justify-center rounded-md bg-(--primary) text-white transition hover:bg-gray-900 active:scale-95"
+                aria-label="Send message"
+                className="absolute right-2 cursor-pointer bottom-0 -translate-y-1/2 flex h-8 px-3 gap-2 items-center justify-center rounded-md bg-(--primary) text-white transition hover:opacity-90 active:scale-95"
               >
+                <span className='text-xs'>Submit</span>
                 <Send className="h-4 w-4" />
               </button>
             </div>
