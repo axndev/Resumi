@@ -176,7 +176,7 @@ export default function HeroSection() {
         </div>
 
         {/* Headline + CTA */}
-        <h1 className="text-4xl md:text-6xl font-semibold max-w-3xl text-center mt-4 md:leading-[70px]">
+        <h1 className="text-5xl md:text-6xl font-semibold max-w-3xl text-center mt-4 md:leading-[70px]">
           Make a <span className="highlightedText">Professional</span> <span className="highlightedText">Resume</span> in Minutes
         </h1>
 
