@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
+import { Analytics } from "@vercel/analytics/react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -18,7 +19,9 @@ function ProtectedRoute({ children }) {
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <Analytics />
+      <Routes>
       {/* Public Route */}
       
       <Route
@@ -88,5 +91,6 @@ export default function App() {
         }
       />
     </Routes>
+    </>
   );
 }
