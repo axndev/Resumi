@@ -101,7 +101,7 @@ export default function HeroSection() {
               ) : (
                 <div className="flex gap-5 items-center">
                   <Link
-                    to={user ? `/app` : `/resgister`}
+                    to={user ? `/app` : `/register`}
                     className="rounded-full bg-[var(--primary)] px-7 py-2 text-sm text-white transition hover:opacity-90"
                   >
                     Dashboard
@@ -161,7 +161,7 @@ export default function HeroSection() {
               ) : (
                 <div className="flex gap-5 items-center">
                   <Link
-                    to={user ? `/app` : `/resgister`}
+                    to={user ? `/app` : `/register`}
                     className="rounded-full w-full text-center bg-[var(--primary)] px-7 py-2.5 text-sm text-white transition hover:opacity-90"
                   >
                     Dashboard
@@ -244,7 +244,7 @@ export default function HeroSection() {
         {/* CTA Buttons */}
         <div className="flex flex-col md:flex-row items-center gap-4 ">
           <Link
-            to={user ? `/app` : `/resgister`}
+            to={user ? `/app` : `/register`}
             className="flex items-center gap-2 bg-(--primary) hover:bg-(--primary)/90 text-white active:scale-95 rounded-md px-7 h-11"
           >
             <span>Build Resume</span>
