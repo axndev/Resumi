@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.58.1",
+    "@supabase/supabase-js": "^2.91.0",
     "@tailwindcss/vite": "^4.1.18",
     "@vercel/analytics": "^1.6.1",
     "clsx": "^2.1.1",
@@ -18,6 +19,7 @@
     "html2pdf.js": "^0.12.1",
     "jspdf": "^3.0.4",
     "lucide-react": "^0.561.0",
+    "posthog-js": "^1.331.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.10.1",

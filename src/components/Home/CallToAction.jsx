@@ -1,8 +1,10 @@
 import { ArrowRight } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useUser } from "@clerk/clerk-react";
 
 function CallToAction() {
+     const { user } = useUser();
     return (
         <div id='contact' className="border-y mb-30 border-dashed border-slate-200 w-full max-w-6xl mx-auto md:px-16 px-8">
             <div className="flex flex-col md:flex-row text-center md:text-left items-center justify-between gap-8 px-3 md:px-10 border-x border-dashed border-slate-200 py-20 -mt-10 -mb-10 w-full">
@@ -14,7 +16,7 @@ function CallToAction() {
                 </p>
                 <div className="flex flex-col items-center md:items-start gap-2">
                     <Link
-                        to="/app"
+                        to={user ? `/app` : `/register`}
                         className="flex items-center gap-2 rounded-md py-3 px-6
                bg-(--primary) hover:bg-(--primary)/90
                transition text-white font-medium"
